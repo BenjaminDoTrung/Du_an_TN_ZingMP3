@@ -57,18 +57,18 @@ public class UserController {
         return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
     @PostMapping("/register")
-    public ResponseEntity<String> createUser(@RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity createUser(@RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Iterable<User> users = userService.findAll();
         for (User currentUser : users) {
             if (currentUser.getUserName().equals(user.getUserName())) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Username existed",HttpStatus.OK);
             }
         }
         if (!userService.isCorrectConfirmPassword(user)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Input confirm password",HttpStatus.OK);
         }
         if (user.getRoles() != null) {
             Roles role = roleService.findByName("ROLE_ADMIN");
@@ -83,14 +83,12 @@ public class UserController {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
-        if (mailService.register(user)){
-            return new ResponseEntity<>("Register successfully!", HttpStatus.OK);
-        }
-        return new ResponseEntity<>("Email is exist!", HttpStatus.BAD_REQUEST);
+        userService.save(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtService.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
