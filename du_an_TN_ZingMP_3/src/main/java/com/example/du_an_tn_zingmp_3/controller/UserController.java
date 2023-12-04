@@ -94,7 +94,7 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtService.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User currentUser = userService.findByUserName(user.getUserName());
+        User currentUser = userService.findByUsername(user.getUserName());
         return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), userDetails.getAuthorities()));
     }
     @PutMapping("/{id}")
@@ -114,17 +114,5 @@ public class UserController {
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-    @PutMapping("/updatePassword/{oldPass}")
-    public ResponseEntity<?> updatePassword(@PathVariable("oldPass") String oldPass, @RequestBody User users){
 
-        User usersOld = userService.findByPassword(oldPass);
-        if (usersOld != null){
-            usersOld.setPassword(passwordEncoder.encode(users.getPassword()));
-            usersOld.setConfirmPassword(passwordEncoder.encode(users.getConfirmPassword()));
-            userService.save(usersOld);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
 }

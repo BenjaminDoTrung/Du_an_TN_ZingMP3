@@ -13,9 +13,12 @@ public class RoleService implements IRoleService {
   @Autowired
     private IRoleRepository iRoleRepository;
 
+    @Autowired
+    private IRoleRepository roleRepository;
+
     @Override
     public Iterable<Roles> findAll() {
-        return iRoleRepository.findAll();
+        return roleRepository.findAll();
     }
 
     @Override
@@ -29,12 +32,13 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public void save(Roles roles) {
-        iRoleRepository.save(roles);
+    public void save(Roles role) {
+        roleRepository.save(role);
     }
 
     @Override
     public Roles findByName(String name) {
-        return iRoleRepository.findByName(name);
+        return roleRepository.findByName(name);
     }
+
 }

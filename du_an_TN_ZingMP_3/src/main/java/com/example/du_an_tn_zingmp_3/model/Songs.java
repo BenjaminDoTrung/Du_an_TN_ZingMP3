@@ -21,7 +21,7 @@ public class Songs {
     private String description;
     private String file_song;
     private int count_like;
-    private boolean like;
+    private boolean likes;
     @ManyToOne
     private SongTypes id_SongTypes;
 }

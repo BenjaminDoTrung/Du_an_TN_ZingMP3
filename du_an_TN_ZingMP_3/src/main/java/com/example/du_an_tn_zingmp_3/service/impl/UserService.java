@@ -16,14 +16,14 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService {
     @Autowired
-    private IUserRepository iUserRepository;
+    private IUserRepository userRepository;
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String name) {
-        User user = iUserRepository.findByUserName(name);
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findByUserName(username);
         if (user == null) {
-            throw new UsernameNotFoundException(name);
+            throw new UsernameNotFoundException(username);
         }
         if (this.checkLogin(user)) {
             return UserPrinciple.build(user);
@@ -32,7 +32,7 @@ public class UserService implements IUserService {
         boolean accountNonExpired = false;
         boolean credentialsNonExpired = false;
         boolean accountNonLocked = false;
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+        return new org.springframework.security.core.userdetails.User(user.getUserName(),
                 user.getPassword(), enable, accountNonExpired, credentialsNonExpired,
                 accountNonLocked, null);
     }
@@ -40,17 +40,17 @@ public class UserService implements IUserService {
 
     @Override
     public void save(User user) {
-        iUserRepository.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public Iterable<User> findAll() {
-        return iUserRepository.findAll();
+        return userRepository.findAll();
     }
 
     @Override
-    public User findByUserName(String userName) {
-        return iUserRepository.findByUserName(userName);
+    public User findByUsername(String username) {
+        return userRepository.findByUserName(username);
     }
 
     @Override
@@ -63,18 +63,18 @@ public class UserService implements IUserService {
         } else {
             userName = principal.toString();
         }
-        user = this.findByUserName(userName);
+        user = this.findByUsername(userName);
         return user;
     }
 
     @Override
     public Optional<User> findById(Long id) {
-        return iUserRepository.findById(id);
+        return userRepository.findById(id);
     }
 
     @Override
     public UserDetails loadUserById(Long id) {
-        Optional<User> user = iUserRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new NullPointerException();
         }
@@ -110,10 +110,5 @@ public class UserService implements IUserService {
     @Override
     public boolean isCorrectConfirmPassword(User user) {
         return user.getPassword().equals(user.getConfirmPassword());
-    }
-
-    @Override
-    public User findByPassword(String pass) {
-        return iUserRepository.findByPassword(pass);
     }
 }

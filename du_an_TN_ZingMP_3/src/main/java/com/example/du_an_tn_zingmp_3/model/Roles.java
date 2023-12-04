@@ -10,5 +10,13 @@ public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public Roles() {
+    }
+
+    public Roles(String name) {
+        this.name = name;
+    }
+
     private String name;
 }

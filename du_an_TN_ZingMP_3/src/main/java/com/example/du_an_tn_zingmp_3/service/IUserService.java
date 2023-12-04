@@ -11,7 +11,7 @@ public interface IUserService extends UserDetailsService {
 
     Iterable<User> findAll();
 
-    User findByUserName(String userName);
+    User findByUsername(String username);
 
     User getCurrentUser();
 
@@ -24,6 +24,4 @@ public interface IUserService extends UserDetailsService {
     boolean isRegister(User user);
 
     boolean isCorrectConfirmPassword(User user);
-
-    User findByPassword(String pass);
 }
