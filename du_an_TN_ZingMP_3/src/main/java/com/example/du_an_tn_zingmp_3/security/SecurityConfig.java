@@ -50,8 +50,8 @@ public class SecurityConfig {
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration cofig) throws Exception {
-        return cofig.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
     @Bean
@@ -60,11 +60,6 @@ public class SecurityConfig {
         authenticationProvider.setUserDetailsService(userService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
-    }
-
-    @Bean
-    public RestAuthenticationEntryPoint restServicesEntryPoint() {
-        return new RestAuthenticationEntryPoint();
     }
 
     @Bean
@@ -78,48 +73,19 @@ public class SecurityConfig {
     }
 
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return  http.csrf(csrf -> csrf.disable())
+        return http.csrf(csrf -> csrf.disable())
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/register", "/hello").permitAll()
-                        .requestMatchers("/users/**").
-                        hasAnyAuthority("ROLE_USER")
+                        .requestMatchers("/users/**").hasAnyAuthority("ROLE_USER")
                         .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/categories",
-                                "/typeOfQuestions",
-                                "/questions",
-                                "/answers",
-                                "/quizzes",
-                                "/hello").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/users")
-                        .hasAnyAuthority("ROLE_USER")
-                        .anyRequest().authenticated()
                 )
+                .exceptionHandling(customizer -> customizer.accessDeniedHandler(customAccessDeniedHandler()))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
                 .build();
-//        return http.httpBasic().authenticationEntryPoint(restServicesEntryPoint())
-//                .and().csrf()
-//
-//                .disable().authorizeRequests()
-//                .requestMatchers("/login", "/register", "/hello").permitAll()
-//                .requestMatchers("/users/**").access("hasRole('ROLE_USER')")
-//                .requestMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-////                .requestMatchers(HttpMethod.GET).access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-////                .requestMatchers(HttpMethod.DELETE, "/categories",
-////                        "/typeOfQuestions",
-////                        "/questions",
-////                        "/answers",
-////                        "/quizzes",
-////                        "/hello").access("hasRole('ROLE_ADMIN')")
-////                .requestMatchers(HttpMethod.PUT, "/users")
-////                .access("hasRole('ROLE_USER')")
-//                .anyRequest().authenticated().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .and().addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler())
-//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and().cors()
-//                .and().build();
     }
 }
