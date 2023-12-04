@@ -30,4 +30,12 @@ public class User implements Serializable {
     private Set<Roles> roles;
     private boolean enabled = true;
 
+    public User() {
+    }
+
+    public User(String password, String confirmPassword, String userName) {
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.userName = userName;
+    }
 }
