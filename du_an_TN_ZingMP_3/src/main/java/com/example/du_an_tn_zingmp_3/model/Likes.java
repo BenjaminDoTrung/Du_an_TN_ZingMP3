@@ -13,5 +13,5 @@ public class Likes {
     @ManyToOne
     private Songs id_Songs;
     @ManyToOne
-    private Users id_Users;
+    private User id_Users;
 }

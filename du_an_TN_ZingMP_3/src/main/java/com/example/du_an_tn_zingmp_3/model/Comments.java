@@ -12,7 +12,7 @@ public class Comments {
     private Long id;
     private String content;
     @ManyToOne
-    private Users users;
+    private User users;
     @ManyToOne
     private Songs songs;
 }

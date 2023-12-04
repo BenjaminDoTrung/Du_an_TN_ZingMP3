@@ -13,7 +13,7 @@ public class PlayList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private Users id_users;
+    private User id_users;
     private String namePlayList;
     @ManyToMany
     private List<Songs> songsList;
