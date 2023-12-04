@@ -32,4 +32,9 @@ public class RoleService implements IRoleService {
     public void save(Roles roles) {
         iRoleRepository.save(roles);
     }
+
+    @Override
+    public Roles findByName(String name) {
+        return iRoleRepository.findByName(name);
+    }
 }

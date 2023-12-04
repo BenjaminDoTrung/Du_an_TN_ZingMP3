@@ -1,32 +1,34 @@
-package com.example.airbnb.service.impl;
+package com.example.du_an_tn_zingmp_3.service.impl;
 
 
-import com.example.airbnb.model.UserPrinciple;
+
+import com.example.du_an_tn_zingmp_3.model.UserPrinciple;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "11111111111111111111111111111111";
+    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     private static final long EXPIRE_TIME = 86400000000L;
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class.getName());
 
     public String generateTokenLogin(Authentication authentication) {
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
-
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + EXPIRE_TIME * 1000))
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .signWith(SECRET_KEY, SignatureAlgorithm.HS512)
                 .compact();
     }
 
@@ -50,11 +52,9 @@ public class JwtService {
     }
 
     public String getUserNameFromJwtToken(String token) {
-
-        String userName = Jwts.parser()
+        return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
                 .getBody().getSubject();
-        return userName;
     }
 }

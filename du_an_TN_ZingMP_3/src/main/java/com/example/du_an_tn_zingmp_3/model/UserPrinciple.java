@@ -1,4 +1,4 @@
-package com.example.project_h_shop.model;
+package com.example.du_an_tn_zingmp_3.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,23 +20,18 @@ public class UserPrinciple implements UserDetails {
 
     private Collection<? extends GrantedAuthority> roles;
 
-    public UserPrinciple(Long id,
-                         String username, String password,
-                         Collection<? extends GrantedAuthority> roles) {
+    public UserPrinciple(Long id, String username, String password, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.roles = roles;
     }
 
-    public static UserPrinciple build(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
-                new SimpleGrantedAuthority(role.getName())
-        ).collect(Collectors.toList());
-
+    public static UserPrinciple build(Users user) {
+        List<GrantedAuthority> authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
         return new UserPrinciple(
                 user.getId(),
-                user.getUsername(),
+                user.getEmail(),
                 user.getPassword(),
                 authorities
         );
