@@ -21,10 +21,10 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String email) {
-        Users user = iUserRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String name) {
+        User user = iUserRepository.findByUserName(name);
         if (user == null) {
-            throw new UsernameNotFoundException(email);
+            throw new UsernameNotFoundException(name);
         }
         if (this.checkLogin(user)) {
             return UserPrinciple.build(user);
@@ -40,42 +40,42 @@ public class UserService implements IUserService {
 
 
     @Override
-    public void save(Users user) {
+    public void save(User user) {
         iUserRepository.save(user);
     }
 
     @Override
-    public Iterable<Users> findAll() {
+    public Iterable<User> findAll() {
         return iUserRepository.findAll();
     }
 
     @Override
-    public Users findByUserName(String userName) {
+    public User findByUserName(String userName) {
         return iUserRepository.findByUserName(userName);
     }
 
     @Override
-    public Users getCurrentUser() {
-        Users user;
-        String email;
+    public User getCurrentUser() {
+        User user;
+        String userName;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            email = ((UserDetails) principal).getUsername();
+            userName = ((UserDetails) principal).getUsername();
         } else {
-            email = principal.toString();
+            userName = principal.toString();
         }
-        user = this.findByEmail(email);
+        user = this.findByUserName(userName);
         return user;
     }
 
     @Override
-    public Optional<Users> findById(Long id) {
+    public Optional<User> findById(Long id) {
         return iUserRepository.findById(id);
     }
 
     @Override
     public UserDetails loadUserById(Long id) {
-        Optional<Users> user = iUserRepository.findById(id);
+        Optional<User> user = iUserRepository.findById(id);
         if (user.isEmpty()) {
             throw new NullPointerException();
         }
@@ -83,11 +83,11 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean checkLogin(Users user) {
-        Iterable<Users> users = this.findAll();
+    public boolean checkLogin(User user) {
+        Iterable<User> users = this.findAll();
         boolean isCorrectUser = false;
-        for (Users currentUser : users) {
-            if (currentUser.getEmail().equals(user.getEmail()) && user.getPassword().equals(currentUser.getPassword()) && currentUser.isEnabled()) {
+        for (User currentUser : users) {
+            if (currentUser.getUserName().equals(user.getUserName()) && user.getPassword().equals(currentUser.getPassword()) && currentUser.isEnabled()) {
                 isCorrectUser = true;
                 break;
             }
@@ -96,11 +96,11 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean isRegister(Users user) {
+    public boolean isRegister(User user) {
         boolean isRegister = false;
-        Iterable<Users> users = this.findAll();
-        for (Users currentUser : users) {
-            if (user.getEmail().equals(currentUser.getEmail())) {
+        Iterable<User> users = this.findAll();
+        for (User currentUser : users) {
+            if (user.getUserName().equals(currentUser.getUserName())) {
                 isRegister = true;
                 break;
             }
@@ -109,12 +109,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean isCorrectConfirmPassword(Users user) {
+    public boolean isCorrectConfirmPassword(User user) {
         return user.getPassword().equals(user.getConfirmPassword());
     }
 
     @Override
-    public Users findByPassword(String pass) {
+    public User findByPassword(String pass) {
         return iUserRepository.findByPassword(pass);
     }
 }
