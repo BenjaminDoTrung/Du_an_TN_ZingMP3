@@ -109,6 +109,6 @@ public class UserService implements IUserService {
 
     @Override
     public boolean isCorrectConfirmPassword(User user) {
-        return user.getPassword().equals(user.getConfirmPassword());
+        return user.getPassword().equals(user.getConfirmedPassword());
     }
 }

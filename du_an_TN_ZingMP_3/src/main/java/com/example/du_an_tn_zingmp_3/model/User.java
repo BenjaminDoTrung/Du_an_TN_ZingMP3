@@ -18,7 +18,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     @Column(nullable = false)
-    private String confirmPassword;
+    private String confirmedPassword;
     private String url_img;
     private LocalDate dayOfBirth;
     private String phone;
@@ -30,12 +30,4 @@ public class User implements Serializable {
     private Set<Roles> roles;
     private boolean enabled = true;
 
-    public User() {
-    }
-
-    public User(String password, String confirmPassword, String userName) {
-        this.password = password;
-        this.confirmPassword = confirmPassword;
-        this.userName = userName;
-    }
 }

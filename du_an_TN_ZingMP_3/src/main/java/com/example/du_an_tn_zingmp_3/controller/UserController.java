@@ -3,13 +3,10 @@ package com.example.du_an_tn_zingmp_3.controller;
 import com.example.du_an_tn_zingmp_3.model.JwtResponse;
 import com.example.du_an_tn_zingmp_3.model.Roles;
 import com.example.du_an_tn_zingmp_3.model.User;
-import com.example.du_an_tn_zingmp_3.service.IMailService;
 import com.example.du_an_tn_zingmp_3.service.IRoleService;
 import com.example.du_an_tn_zingmp_3.service.IUserService;
 import com.example.du_an_tn_zingmp_3.service.impl.JwtService;
 import com.example.du_an_tn_zingmp_3.service.impl.MailService;
-import com.example.du_an_tn_zingmp_3.service.impl.RoleService;
-import com.example.du_an_tn_zingmp_3.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +79,7 @@ public class UserController {
             user.setRoles(roles1);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
+        user.setConfirmedPassword(passwordEncoder.encode(user.getConfirmedPassword()));
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
@@ -107,7 +104,7 @@ public class UserController {
         user.setEnabled(userOptional.get().isEnabled());
         user.setPassword(userOptional.get().getPassword());
         user.setRoles(userOptional.get().getRoles());
-        user.setConfirmPassword(userOptional.get().getConfirmPassword());
+        user.setConfirmedPassword(userOptional.get().getConfirmedPassword());
 
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
