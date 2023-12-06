@@ -99,7 +99,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         user.setId(userOptional.get().getId());
-        user.setEmail(userOptional.get().getEmail());
         user.setUserName(userOptional.get().getUserName());
         user.setEnabled(userOptional.get().isEnabled());
         user.setPassword(userOptional.get().getPassword());
