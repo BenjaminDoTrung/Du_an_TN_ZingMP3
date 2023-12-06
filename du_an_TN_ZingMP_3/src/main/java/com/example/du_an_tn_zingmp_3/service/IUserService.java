@@ -24,4 +24,5 @@ public interface IUserService extends UserDetailsService {
     boolean isRegister(User user);
 
     boolean isCorrectConfirmPassword(User user);
+    User findByEmail(String email);
 }
