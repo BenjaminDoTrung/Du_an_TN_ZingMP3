@@ -75,8 +75,8 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register").permitAll()
-                        .requestMatchers("/users/*").permitAll()
+//                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/**").permitAll()
 //                        .requestMatchers("/admin/**").permitAll()
 //                        .requestMatchers("/users/**").hasAnyAuthority("ROLE_USER")
 //                        .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")

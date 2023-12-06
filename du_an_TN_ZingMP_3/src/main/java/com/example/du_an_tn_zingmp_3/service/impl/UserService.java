@@ -111,4 +111,9 @@ public class UserService implements IUserService {
     public boolean isCorrectConfirmPassword(User user) {
         return user.getPassword().equals(user.getConfirmedPassword());
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

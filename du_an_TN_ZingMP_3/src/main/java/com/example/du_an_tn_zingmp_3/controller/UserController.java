@@ -6,7 +6,7 @@ import com.example.du_an_tn_zingmp_3.model.User;
 import com.example.du_an_tn_zingmp_3.service.IRoleService;
 import com.example.du_an_tn_zingmp_3.service.IUserService;
 import com.example.du_an_tn_zingmp_3.service.impl.JwtService;
-import com.example.du_an_tn_zingmp_3.service.impl.MailService;
+import com.example.du_an_tn_zingmp_3.service.impl.SendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +42,8 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private MailService mailService;
+    private SendMailService sendMailService;
+
 
     @GetMapping
     public ResponseEntity<Iterable<User>> findAll(){
@@ -107,6 +108,20 @@ public class UserController {
 
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+    @PutMapping("/account_lockout/{email}")
+    public ResponseEntity<?> accountLockout(@PathVariable("email")String toEmail){
+        User user = userService.findByEmail(toEmail);
+        if (user.isEnabled()){
+            user.setEnabled(!user.isEnabled());
+            userService.save(user);
+            sendMailService.sendEmail(toEmail);
+        } else {
+            user.setEnabled(!user.isEnabled());
+            userService.save(user);
+            sendMailService.sendEmailOpen(toEmail);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
