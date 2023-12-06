@@ -122,6 +122,7 @@ public class UserController {
             sendMailService.sendEmailOpen(toEmail);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
 }
