@@ -1,9 +1,12 @@
 package com.example.du_an_tn_zingmp_3.controller;
+import com.example.du_an_tn_zingmp_3.model.Songs;
 import com.example.du_an_tn_zingmp_3.service.ISongService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -11,4 +14,31 @@ import org.springframework.web.bind.annotation.RestController;
 public class SongController {
     @Autowired
     private ISongService iSongService;
+
+    @GetMapping
+    public ResponseEntity<Iterable<Songs>> findAll(){
+        return new ResponseEntity<>(iSongService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Songs>> findOne(@PathVariable("id")Long id){
+        return new ResponseEntity<>(iSongService.findById(id), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> update(@RequestBody Songs songs){
+        iSongService.save(songs);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> createSong(@RequestBody Songs songs){
+        iSongService.save(songs);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteById(@PathVariable("id") Long id){
+        iSongService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

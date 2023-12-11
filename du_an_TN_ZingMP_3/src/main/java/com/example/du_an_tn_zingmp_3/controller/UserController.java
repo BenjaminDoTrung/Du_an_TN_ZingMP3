@@ -1,5 +1,4 @@
 package com.example.du_an_tn_zingmp_3.controller;
-
 import com.example.du_an_tn_zingmp_3.model.JwtResponse;
 import com.example.du_an_tn_zingmp_3.model.Roles;
 import com.example.du_an_tn_zingmp_3.model.User;
@@ -19,9 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.security.Principal;
+import java.util.*;
 
 @RestController
 @CrossOrigin("*")
@@ -124,5 +122,10 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
+//    @GetMapping("/loginGG")
+//    public Principal loginGoogle(Principal principal){
+//        System.out.println("userName: " + principal.getName());
+//        return principal;
+//    }
 
 }
