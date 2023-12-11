@@ -38,6 +38,8 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
     //mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    //Google
+//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('bootBuildImage') {
