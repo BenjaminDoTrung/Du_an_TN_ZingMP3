@@ -95,23 +95,20 @@ public class UserController {
             return new ResponseEntity<>(false, HttpStatus.OK);
         }
     }
-    @PutMapping("update_password/{id}")
-    public ResponseEntity<?> updatePassword(@PathVariable("id") Long id, @RequestBody User user1){
-        User user = userService.findById(id).get();
-        User currentUser = userService.findByUsername(user.getUserName());
-        if(currentUser.isEnabled()){
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtService.generateTokenLogin(authentication);
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String newPassword = user1.getPassword();
-            sendMailService.sendEmailUpdatePassword(currentUser.getEmail(), newPassword);
-            String confirmedPassword = user1.getConfirmedPassword();
-            currentUser.setPassword(passwordEncoder.encode(newPassword));
-            currentUser.setConfirmedPassword(passwordEncoder.encode(confirmedPassword));
-            return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), userDetails.getAuthorities()));
-        } else{
-            return new ResponseEntity<>(false, HttpStatus.OK);
+    @PutMapping("/changePassword/{id}")
+    public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody User user) {
+        Optional<User> userOptional = this.userService.findById(id);
+        if (!userOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        boolean check = passwordEncoder.matches(user.getPassword(), userOptional.get().getPassword());
+        if(check) {
+            userOptional.get().setPassword(passwordEncoder.encode(user.getConfirmedPassword()));
+            userService.save(userOptional.get());
+            sendMailService.sendEmailUpdatePassword(userOptional.get().getEmail(), user.getConfirmedPassword());
+            return new ResponseEntity<>( HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
         }
     }
     @PutMapping("/{id}")

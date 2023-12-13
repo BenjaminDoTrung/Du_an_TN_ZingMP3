@@ -23,6 +23,8 @@ public class Songs {
     private int count_like;
     private boolean likes;
     @ManyToOne
+    private User user;
+    @ManyToOne
     private SongTypes id_SongTypes;
     @ManyToMany
     private List<PlayList> playLists;
