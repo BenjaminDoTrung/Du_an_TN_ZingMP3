@@ -34,4 +34,12 @@ public class SendMailService {
         simpleMailMessage.setText("Bạn đã được mở khóa tài khoản! Làm ơn lần sau đừng láo");
         javaMailSender.send(simpleMailMessage);
     }
+    public void sendEmailUpdatePassword(String toEmail, String passwordNew){
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("trung96ecvn@gmail.com");
+        simpleMailMessage.setTo(toEmail);
+        simpleMailMessage.setSubject("Thông báo khóa tài khoản");
+        simpleMailMessage.setText("Bạn vừa mới đổi mật khẩu thành công thành: " + passwordNew + "Đừng để lộ thông tin, xing cảm ơn đã xử dụng dịch vụ.");
+        javaMailSender.send(simpleMailMessage);
+    }
 }

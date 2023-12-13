@@ -32,4 +32,9 @@ public class SongService implements ISongService {
     public void save(Songs songs) {
         iSongRepository.save(songs);
     }
+
+    @Override
+    public Optional<Songs> findByNameSong(String name) {
+        return iSongRepository.findByNameSong(name);
+    }
 }

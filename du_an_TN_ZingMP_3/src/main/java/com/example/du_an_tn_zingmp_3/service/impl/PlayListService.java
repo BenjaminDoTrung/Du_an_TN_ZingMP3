@@ -31,4 +31,9 @@ public class PlayListService implements IPlayListService {
     public void save(PlayList playList) {
         iPlayListRepository.save(playList);
     }
+
+    @Override
+    public Optional<PlayList> findByName(String name) {
+        return iPlayListRepository.findByNamePlayList(name);
+    }
 }

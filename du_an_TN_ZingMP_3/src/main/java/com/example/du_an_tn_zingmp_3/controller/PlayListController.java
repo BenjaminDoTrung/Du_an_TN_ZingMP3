@@ -32,4 +32,9 @@ public class PlayListController {
         iPlayListService.save(playList);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+    @GetMapping("{name}")
+    public ResponseEntity<Optional<PlayList>> findByNamePlayList(@PathVariable String namePlayList){
+        return new ResponseEntity<>(iPlayListService.findByName(namePlayList), HttpStatus.OK);
+    }
+
 }
