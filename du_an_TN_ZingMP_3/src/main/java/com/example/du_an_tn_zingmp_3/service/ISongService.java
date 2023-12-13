@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface ISongService extends IGeneralService <Songs> {
     Optional<Songs> findByNameSong(String name);
+    Iterable<Songs> findAllByNameSong(String name);
 }

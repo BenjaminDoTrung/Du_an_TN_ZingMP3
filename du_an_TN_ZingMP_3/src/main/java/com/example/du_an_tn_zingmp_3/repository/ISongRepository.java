@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ISongRepository extends JpaRepository<Songs,Long> {
     Optional<Songs> findByNameSong(String name);
+    Iterable<Songs> findAllByNameSong(String name);
 }

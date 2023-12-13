@@ -46,4 +46,8 @@ public class SongController {
     public ResponseEntity<Optional<Songs>> findByName(@PathVariable String name){
         return new ResponseEntity<>(iSongService.findByNameSong(name),HttpStatus.OK);
     }
+    @GetMapping("/find_all_by_name/{name}")
+    public ResponseEntity<Iterable<Songs>> findAllByNameSong(@PathVariable String nameSong){
+        return new ResponseEntity<>(iSongService.findAllByNameSong(nameSong), HttpStatus.OK);
+    }
 }
