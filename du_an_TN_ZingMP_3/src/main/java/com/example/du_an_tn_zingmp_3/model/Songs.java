@@ -24,4 +24,6 @@ public class Songs {
     private boolean likes;
     @ManyToOne
     private SongTypes id_SongTypes;
+    @ManyToMany
+    private List<PlayList> playLists;
 }

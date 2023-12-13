@@ -50,4 +50,11 @@ public class SongController {
     public ResponseEntity<Iterable<Songs>> findAllByNameSong(@PathVariable String nameSong){
         return new ResponseEntity<>(iSongService.findAllByNameSong(nameSong), HttpStatus.OK);
     }
+    @PutMapping("/add_play_list/{idPlayList}/{idSong}")
+    public ResponseEntity<?> addPlayList(@PathVariable("idPlayList")Long idPlayList,
+                                         @PathVariable("idSong")Long idSong){
+        iSongService.addPlayList(idPlayList, idSong);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
