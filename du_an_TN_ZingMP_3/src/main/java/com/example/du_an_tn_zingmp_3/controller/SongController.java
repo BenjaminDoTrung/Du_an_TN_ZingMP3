@@ -37,12 +37,12 @@ public class SongController {
         iSongService.save(songs);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable("id") Long id){
         iSongService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<Optional<Songs>> findByName(@PathVariable String name){
         return new ResponseEntity<>(iSongService.findByNameSong(name),HttpStatus.OK);
     }
