@@ -41,13 +41,17 @@ public class SongController {
         iSongService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/{name}")
+    @GetMapping("/search/{name}")
     public ResponseEntity<Optional<Songs>> findByName(@PathVariable String name){
         return new ResponseEntity<>(iSongService.findByNameSong(name),HttpStatus.OK);
     }
-    @GetMapping("/find_all_by_name/{name}")
-    public ResponseEntity<Iterable<Songs>> findAllByNameSong(@PathVariable String nameSong){
+    @GetMapping("/findAllByName/{name}")
+    public ResponseEntity<Iterable<Songs>> findAllByNameSong(@PathVariable("name") String nameSong){
         return new ResponseEntity<>(iSongService.findAllByNameSong(nameSong), HttpStatus.OK);
+    }
+    @GetMapping("/searchByName/{name}")
+    public ResponseEntity<Iterable<Songs>> searchByName(@PathVariable("name") String name){
+        return new ResponseEntity<>(iSongService.searchAllByName(name), HttpStatus.OK);
     }
     @PutMapping("/add_play_list/{idPlayList}/{idSong}")
     public ResponseEntity<?> addPlayList(@PathVariable("idPlayList")Long idPlayList,

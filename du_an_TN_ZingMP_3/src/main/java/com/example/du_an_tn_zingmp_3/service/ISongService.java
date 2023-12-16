@@ -9,4 +9,5 @@ public interface ISongService extends IGeneralService <Songs> {
     Optional<Songs> findByNameSong(String name);
     Iterable<Songs> findAllByNameSong(String name);
     void addPlayList(Long idPlayList, Long idSong);
+    Iterable<Songs> searchAllByName(String name);
 }

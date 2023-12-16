@@ -56,4 +56,9 @@ public class SongService implements ISongService {
         save(songs);
     }
 
+    @Override
+    public Iterable<Songs> searchAllByName(String name) {
+        return iSongRepository.searchByNameSong(name);
+    }
+
 }
