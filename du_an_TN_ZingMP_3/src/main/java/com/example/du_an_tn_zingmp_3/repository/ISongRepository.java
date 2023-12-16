@@ -9,8 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface ISongRepository extends JpaRepository<Songs,Long> {
-    @Query(value = "select * from blog where title like ?", nativeQuery = true)
+    @Query(value = "select * from blog where name like ?", nativeQuery = true)
     Optional<Songs> findByNameSong(String name);
-    @Query(value = "select * from blog where title like %?%", nativeQuery = true)
+    @Query(value = "select * from blog where name like %?%", nativeQuery = true)
     Iterable<Songs> findAllByNameSong(String name);
 }
