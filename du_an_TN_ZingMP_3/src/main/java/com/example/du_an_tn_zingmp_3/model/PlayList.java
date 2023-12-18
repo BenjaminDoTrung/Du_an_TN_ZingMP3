@@ -22,6 +22,11 @@ public class PlayList {
         this.namePlayList = namePlayList;
     }
 
+    public PlayList(User id_users, String namePlayList) {
+        this.id_users = id_users;
+        this.namePlayList = namePlayList;
+    }
+
     public PlayList() {
     }
 }

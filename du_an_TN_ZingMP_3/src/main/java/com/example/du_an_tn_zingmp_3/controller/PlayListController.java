@@ -22,7 +22,7 @@ public class PlayListController {
         return new ResponseEntity<>(iPlayListService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<PlayList>> findOnePlayList(@PathVariable("id") Long id){
         return new ResponseEntity<>(iPlayListService.findById(id),HttpStatus.OK);
     }
@@ -32,9 +32,14 @@ public class PlayListController {
         iPlayListService.save(playList);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @GetMapping("{name}")
+    @GetMapping("/findByName/{name}")
     public ResponseEntity<Optional<PlayList>> findByNamePlayList(@PathVariable String namePlayList){
         return new ResponseEntity<>(iPlayListService.findByName(namePlayList), HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById (@PathVariable("id") Long id){
+        iPlayListService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
