@@ -6,9 +6,12 @@ import com.example.du_an_tn_zingmp_3.repository.ISongRepository;
 import com.example.du_an_tn_zingmp_3.service.IPlayListService;
 import com.example.du_an_tn_zingmp_3.service.ISongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -59,6 +62,18 @@ public class SongService implements ISongService {
     @Override
     public Iterable<Songs> searchAllByName(String name) {
         return iSongRepository.searchByNameSong(name);
+    }
+
+    @Override
+    public List<Songs> searchAllByIdUser(Long idUser) {
+        Iterable<Songs> songsIterable = findAll();
+        List<Songs> songs = new ArrayList<>();
+        for (Songs songs1: songsIterable) {
+            if(songs1.getUser().getId() == idUser){
+                songs.add(songs1);
+            }
+        }
+        return songs;
     }
 
 }

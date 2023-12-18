@@ -3,6 +3,7 @@ package com.example.du_an_tn_zingmp_3.service;
 import com.example.du_an_tn_zingmp_3.model.PlayList;
 import com.example.du_an_tn_zingmp_3.model.Songs;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ISongService extends IGeneralService <Songs> {
@@ -10,4 +11,5 @@ public interface ISongService extends IGeneralService <Songs> {
     Iterable<Songs> findAllByNameSong(String name);
     void addPlayList(Long idPlayList, Long idSong);
     Iterable<Songs> searchAllByName(String name);
+    List<Songs> searchAllByIdUser(Long idUser);
 }

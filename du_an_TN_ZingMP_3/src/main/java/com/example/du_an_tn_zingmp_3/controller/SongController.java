@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -58,6 +59,10 @@ public class SongController {
                                          @PathVariable("idSong")Long idSong){
         iSongService.addPlayList(idPlayList, idSong);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/showByIdUser/{id}")
+    public ResponseEntity<List<Songs>> findAllByIdUser(@PathVariable("id") Long id){
+        return new ResponseEntity<>(iSongService.searchAllByIdUser(id), HttpStatus.OK);
     }
 
 }
