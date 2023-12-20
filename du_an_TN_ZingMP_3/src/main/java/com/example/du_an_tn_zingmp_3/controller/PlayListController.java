@@ -29,6 +29,9 @@ public class PlayListController {
 
     @PutMapping
     public ResponseEntity<?> createPlayList(@RequestBody PlayList playList){
+        if (playList.getNamePlayList().isEmpty()){
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
         iPlayListService.save(playList);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -39,6 +42,12 @@ public class PlayListController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById (@PathVariable("id") Long id){
         iPlayListService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @DeleteMapping("/deleteSongInPlaylist/{idSong}/{idPlaylist}")
+    public ResponseEntity<?> deleteSongInPlaylist(@PathVariable("idSong") Long idSong,
+                                     @PathVariable("idPlaylist") Long idPlaylist){
+        iPlayListService.deleteSongInPlaylist(idSong, idPlaylist);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

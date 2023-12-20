@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface IPlayListService extends IGeneralService <PlayList> {
     Optional<PlayList> findByName(String name);
+    void deleteSongInPlaylist(Long idSong, Long idPlaylist);
 }
