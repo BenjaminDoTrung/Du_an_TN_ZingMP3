@@ -127,23 +127,6 @@ public class UserController {
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-
-    @PutMapping("/changePassword/{id}")
-    public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody User user) {
-        Optional<User> userOptional = this.userService.findById(id);
-        if (!userOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        boolean check = passwordEncoder.matches(user.getPassword(), userOptional.get().getPassword());
-        if(check) {
-            userOptional.get().setPassword(passwordEncoder.encode(user.getConfirmedPassword()));
-            userService.save(userOptional.get());
-            return new ResponseEntity<>( HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
-        }
-
-    }
     @PutMapping("/account_lockout/{email}")
     public ResponseEntity<?> accountLockout(@PathVariable("email")String toEmail){
         User user = userService.findByEmail(toEmail);
