@@ -95,6 +95,22 @@ public class UserController {
             return new ResponseEntity<>(false, HttpStatus.OK);
         }
     }
+    @PutMapping("/changePassword/{id}")
+    public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody User user) {
+        Optional<User> userOptional = this.userService.findById(id);
+        if (!userOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        boolean check = passwordEncoder.matches(user.getPassword(), userOptional.get().getPassword());
+        if(check) {
+            userOptional.get().setPassword(passwordEncoder.encode(user.getConfirmedPassword()));
+            userService.save(userOptional.get());
+            sendMailService.sendEmailUpdatePassword(userOptional.get().getEmail(), user.getConfirmedPassword());
+            return new ResponseEntity<>( HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+        }
+    }
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUserProfile(@PathVariable Long id, @RequestBody User user) {
         Optional<User> userOptional = this.userService.findById(id);
@@ -141,12 +157,6 @@ public class UserController {
             sendMailService.sendEmailOpen(toEmail);
         }
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
-//    @GetMapping("/loginGG")
-//    public Principal loginGoogle(Principal principal){
-//        System.out.println("userName: " + principal.getName());
-//        return principal;
-//    }
 
 }

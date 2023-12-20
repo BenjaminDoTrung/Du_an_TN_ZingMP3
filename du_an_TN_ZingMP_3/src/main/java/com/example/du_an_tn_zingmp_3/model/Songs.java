@@ -23,5 +23,23 @@ public class Songs {
     private int count_like;
     private boolean likes;
     @ManyToOne
+    private User user;
+    @ManyToOne
     private SongTypes id_SongTypes;
+
+
+    public Songs(String nameSong, String singer, String author, LocalDate date, String url_img, String description, String file_song, User user, SongTypes id_SongTypes) {
+        this.nameSong = nameSong;
+        this.singer = singer;
+        this.author = author;
+        this.date = date;
+        this.url_img = url_img;
+        this.description = description;
+        this.file_song = file_song;
+        this.user = user;
+        this.id_SongTypes = id_SongTypes;
+    }
+
+    public Songs() {
+    }
 }

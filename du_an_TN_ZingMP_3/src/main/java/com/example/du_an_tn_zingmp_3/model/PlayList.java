@@ -18,4 +18,15 @@ public class PlayList {
     @ManyToMany
     private List<Songs> songsList;
 
+    public PlayList(String namePlayList) {
+        this.namePlayList = namePlayList;
+    }
+
+    public PlayList(User id_users, String namePlayList) {
+        this.id_users = id_users;
+        this.namePlayList = namePlayList;
+    }
+
+    public PlayList() {
+    }
 }
