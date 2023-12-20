@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,6 +21,7 @@ public class SongService implements ISongService {
     private ISongRepository iSongRepository;
    @Autowired
    private IPlayListService iPlayListService;
+
 
     @Override
     public Iterable<Songs> findAll() {
@@ -55,8 +57,7 @@ public class SongService implements ISongService {
     public void addPlayList(Long idPlayList, Long idSong) {
         Songs songs = findById(idSong).get();
         PlayList playList = iPlayListService.findById(idPlayList).get();
-        songs.getPlayLists().add(playList);
-        save(songs);
+        playList.getSongsList().add(songs);
     }
 
     @Override
@@ -77,8 +78,15 @@ public class SongService implements ISongService {
     }
 
     @Override
-    public List<Songs> findAllByIdPlayList(Long id) {
-        return iSongRepository.findAllByIdPlayList(id);
+    public List<Songs> findAllByIdPlayList(Long idPlaylist) {
+        Iterable<PlayList> playLists = iPlayListService.findAll();
+        List<Songs> songs = new ArrayList<>();
+        for (PlayList playlist: playLists) {
+            if (Objects.equals(playlist.getId(), idPlaylist)){
+                songs.addAll(playlist.getSongsList());
+                break;
+            }
+        }
+        return songs;
     }
-
 }

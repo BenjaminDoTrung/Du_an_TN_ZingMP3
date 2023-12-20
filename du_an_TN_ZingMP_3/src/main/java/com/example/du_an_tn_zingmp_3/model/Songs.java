@@ -26,8 +26,7 @@ public class Songs {
     private User user;
     @ManyToOne
     private SongTypes id_SongTypes;
-    @ManyToMany
-    private List<PlayList> playLists;
+
 
     public Songs(String nameSong, String singer, String author, LocalDate date, String url_img, String description, String file_song, User user, SongTypes id_SongTypes) {
         this.nameSong = nameSong;
