@@ -29,13 +29,13 @@ public class SongController {
         return new ResponseEntity<>(iSongService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody Songs songs) {
         iSongService.save(songs);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping
+    @PostMapping
     public ResponseEntity<?> createSong(@RequestBody Songs songs) {
         iSongService.save(songs);
         return new ResponseEntity<>(HttpStatus.CREATED);

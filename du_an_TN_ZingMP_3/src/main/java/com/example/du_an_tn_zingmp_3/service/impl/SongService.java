@@ -70,8 +70,10 @@ public class SongService implements ISongService {
         Iterable<Songs> songsIterable = findAll();
         List<Songs> songs = new ArrayList<>();
         for (Songs songs1: songsIterable) {
-            if(songs1.getUser().getId() == idUser){
-                songs.add(songs1);
+            if (songs1.getUser() != null) {
+                if (songs1.getUser().getId().equals(idUser)) {
+                    songs.add(songs1);
+                }
             }
         }
         return songs;
