@@ -118,7 +118,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         user.setId(userOptional.get().getId());
-        user.setUserName(userOptional.get().getUserName());
+//        user.setUserName(userOptional.get().getUserName());
         user.setEnabled(userOptional.get().isEnabled());
         user.setPassword(userOptional.get().getPassword());
         user.setRoles(userOptional.get().getRoles());

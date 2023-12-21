@@ -47,5 +47,6 @@ public class PlayListService implements IPlayListService {
                 break;
             }
         }
+        save(playList);
     }
 }
