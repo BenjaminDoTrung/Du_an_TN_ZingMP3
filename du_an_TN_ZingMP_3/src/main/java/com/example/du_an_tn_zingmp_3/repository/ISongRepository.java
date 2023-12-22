@@ -11,14 +11,11 @@ import java.util.Optional;
 @Repository
 public interface ISongRepository extends JpaRepository<Songs,Long> {
     Optional<Songs> findByNameSong(String name);
-//    @Query(value = "select * from songs where nameSong like %?%", nativeQuery = true)
     Iterable<Songs> findAllByNameSong(String nameSong);
-
     @Query(value = "select * from songs where name_song like %?%", nativeQuery = true)
     Iterable<Songs> searchByNameSong(String name);
-
-
-//    @Query(value = "insert into songs_play_lists (song_id, play_list_id) value (?, ?)", nativeQuery = true)
-//    void addToPlayList (Long song_id, Long play_list_id);
+    List<Songs> findAllBySinger (String nameSinger);
+    @Query(value = "select * from songs join song_type on song.id_SongTypes = song_type.id where id=?", nativeQuery = true)
+    List<Songs> findAllBySongTypes (Long id);
 
 }

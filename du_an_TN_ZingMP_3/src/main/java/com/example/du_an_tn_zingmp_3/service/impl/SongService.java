@@ -91,4 +91,21 @@ public class SongService implements ISongService {
         }
         return songs;
     }
+
+    @Override
+    public List<Songs> findAllByNameSinger(String nameSinger) {
+        return iSongRepository.findAllBySinger(nameSinger);
+    }
+
+    @Override
+    public List<Songs> findAllByIdSongType(Long id) {
+        Iterable<Songs> songsList = findAll();
+        List<Songs> list = new ArrayList<>();
+        for (Songs songs : songsList) {
+            if (songs.getId_SongTypes().getId() == id){
+                list.add(songs);
+            }
+        }
+        return list;
+    }
 }

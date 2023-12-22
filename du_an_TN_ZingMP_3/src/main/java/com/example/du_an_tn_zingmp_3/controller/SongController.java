@@ -80,8 +80,14 @@ public class SongController {
     @PutMapping("/addPlayList/{idSong}/{idPlayList}")
     public ResponseEntity<?> addPlaylist(@PathVariable("idSong") Long idSong,
                                          @PathVariable("idPlayList") Long idPlaylist) {
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @GetMapping("/findAllByNameSinger/{nameSinger}")
+    public ResponseEntity<List<Songs>> findAllByNameSinger(@PathVariable("nameSinger") String nameSinger){
+        return new ResponseEntity<>(iSongService.findAllByNameSinger(nameSinger), HttpStatus.OK);
+    }
+    @GetMapping("/showListSongByType/{id}")
+    public ResponseEntity<List<Songs>> showListSongByType (@PathVariable("id") Long id){
+        return new ResponseEntity<>(iSongService.findAllByIdSongType(id), HttpStatus.OK);
+    }
 }
