@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -50,5 +51,8 @@ public class PlayListController {
         iPlayListService.deleteSongInPlaylist(idSong, idPlaylist);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @GetMapping("/findByIdUser/{id}")
+    public ResponseEntity<List<PlayList>> findAllByIdUser(@PathVariable("id") Long idUser) {
+        return new ResponseEntity<>(iPlayListService.finAllByIdUser(idUser), HttpStatus.OK);
+    }
 }

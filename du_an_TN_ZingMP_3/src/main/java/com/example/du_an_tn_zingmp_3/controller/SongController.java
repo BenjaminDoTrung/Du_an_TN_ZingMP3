@@ -80,6 +80,7 @@ public class SongController {
     @PutMapping("/addPlayList/{idSong}/{idPlayList}")
     public ResponseEntity<?> addPlaylist(@PathVariable("idSong") Long idSong,
                                          @PathVariable("idPlayList") Long idPlaylist) {
+        iSongService.addPlayList(idPlaylist, idSong);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/findAllByNameSinger/{nameSinger}")

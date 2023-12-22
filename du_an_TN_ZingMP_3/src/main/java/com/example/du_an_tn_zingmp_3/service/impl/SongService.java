@@ -58,6 +58,7 @@ public class SongService implements ISongService {
         Songs songs = findById(idSong).get();
         PlayList playList = iPlayListService.findById(idPlayList).get();
         playList.getSongsList().add(songs);
+        iPlayListService.save(playList);
     }
 
     @Override

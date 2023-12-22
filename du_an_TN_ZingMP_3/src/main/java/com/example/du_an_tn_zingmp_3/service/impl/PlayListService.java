@@ -7,6 +7,8 @@ import com.example.du_an_tn_zingmp_3.service.IPlayListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,5 +50,17 @@ public class PlayListService implements IPlayListService {
             }
         }
         save(playList);
+    }
+
+    @Override
+    public List<PlayList> finAllByIdUser(Long idUser) {
+        Iterable<PlayList> playLists = findAll();
+        List<PlayList> playLists1 = new ArrayList<>();
+        for (PlayList p: playLists) {
+            if (p.getId_users().getId() == idUser){
+                playLists1.add(p);
+            }
+        }
+        return playLists1;
     }
 }
